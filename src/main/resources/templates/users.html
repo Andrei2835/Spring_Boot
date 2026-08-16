@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+    <style>
+        table { border-collapse: collapse; margin: 20px; }
+        th, td { border: 1px solid #333; padding: 8px 12px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .btn { text-decoration: none; padding: 5px 10px; border-radius: 3px; color: white; border: none; cursor: pointer; }
+        .btn-edit { background-color: #4CAF50; display: inline-block; }
+        .btn-delete { background-color: #f44336; }
+        .btn-add { background-color: #008CBA; display: inline-block; margin-left: 20px; }
+    </style>
+</head>
+<body>
+
+<h2>Users</h2>
+
+<!-- Ссылка ведет на /users/new -->
+<a th:href="@{/api/users/new}" class="btn btn-add">Add</a>
+<br><br>
+
+<table>
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>name</th>
+        <th>email</th>
+        <th>age</th>
+        <th>edit</th>
+        <th>delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.name}"></td>
+        <td th:text="${user.email}"></td>
+        <td th:text="${user.age}"></td>
+
+        <td>
+            <!-- Ссылка сформирует URL вида: /users/edit?id=X -->
+            <a th:href="@{/api/users/edit(id=${user.id})}" class="btn btn-edit">change</a>
+        </td>
+
+        <td>
+            <!-- Так как в контроллере @PostMapping("/delete"), используем маленькую форму для отправки POST-запроса -->
+            <form th:action="@{/api/users/delete}" method="post" style="display:inline;"
+                  onclick="return confirm('Delete there user?')">
+                <!-- Передаем id как параметр запроса -->
+                <input type="hidden" name="id" th:value="${user.id}" />
+                <button type="submit" class="btn btn-delete">delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
