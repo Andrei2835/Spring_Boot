@@ -1,7 +1,9 @@
 package crudnew.web.spring_boot.spring_boot_rest.dao;
 
+
 import crudnew.web.spring_boot.spring_boot_rest.model.User;
 import jakarta.persistence.EntityManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -9,11 +11,13 @@ import java.util.List;
 @Repository
 public class UserDaoImpl implements UserDao {
 
-    private final EntityManager entityManager;
 
+     private EntityManager entityManager;
+    @Autowired
     public UserDaoImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
+
 
     @Override
     public List<User> findAll() {
